@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @author   Srini Gaddam
+ * Copyright (c) 2010-2011 Gordmans Inc. All rights reserved.
+ * Gordmans Inc., Information Technology PROPRIETARY/CONFIDENTIAL.  
+ * Use is subject to license terms.
+ * 
+ *  JBoss ESB configuration file. 
+ * 
+ * Author -  Srini Gaddam  
+ * Dated -  Oct 13, 2011
+ * Version
+ */
+ -->
+<jbossesb parameterReloadSecs="5"
+	xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd">
+
+	<providers>
+
+		<!--Getting a Session Factory from Queue -->
+		<jms-provider connection-factory="ConnectionFactory"
+			name="ArthurClassESB">
+			<jms-bus busid="INT910.RMS.ART_GW_JMS">
+				<jms-message-filter dest-name="INT910.RMS.ART_UC4_RECEIVER"
+					dest-type="QUEUE" />
+			</jms-bus>
+			<jms-bus busid="INT910.RMS.ART_ESB_JMS">
+				<jms-message-filter dest-name="INT910.RMS.ART_ESB"
+					dest-type="QUEUE" />
+			</jms-bus>
+		</jms-provider>
+
+	</providers>
+	<!-- Service listener for INT910.RMS.ART  that gets invoked by UC4 through a jms queue -->
+	<services>
+		<service category="INT910.RMS.ART_category" description="extract Store Item Data"
+			name="INT910.RMS.ART_CategoryService">
+			<listeners>
+				<jms-listener busidref="INT910.RMS.ART_GW_JMS"
+					is-gateway="true" name="Store_GatewayRef" />
+				<jms-listener busidref="INT910.RMS.ART_ESB_JMS"
+					is-gateway="false" name="Store_ESBRef" />
+			</listeners>
+			<!--Mapping ApplicationContext.xml to JBOSS ESB -->
+			<actions mep="OneWay">
+				<action class="com.gordmans.app.arthurclass.action.ArthurClassAction"
+					name="StoreAction" process="process">
+					<property name="springContextXml" value="applicationcontext.xml" />
+					<property name="exceptionMethod" value="exceptionHandler" />
+				</action>
+			</actions>
+		</service>
+	</services>
+</jbossesb>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * @author   Srini Gaddam
+ * Copyright (c) 2010-2011 Gordmans Inc. All rights reserved.
+ * Gordmans Inc., Information Technology PROPRIETARY/CONFIDENTIAL.  
+ * Use is subject to license terms.
+ * 
+ * Class loading configuration file.
+ * 
+ * Author -  Srini Gaddam  
+ * Dated -  Oct 13, 2011
+ * Version
+ */
+ -->
+<classloading xmlns="urn:jboss:classloading:1.0" domain="simple-scoped" 
+	parent-first="false" />
+	

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * @author   Srini Gaddam
+ * Copyright (c) 2010-2011 Gordmans Inc. All rights reserved.
+ * Gordmans Inc., Information Technology PROPRIETARY/CONFIDENTIAL.  
+ * Use is subject to license terms.
+ *  
+ * Queue deployment configuration file.
+ * 
+ * Author -  Srini Gaddam  
+ * Dated -  Oct 13, 2011
+ * Version
+ */
+ -->
+<!--Deployment of Projected ESB -->
+<jbossesb-deployment>
+	<!-- UC4 is going to put the message in the INT910.RMS.ART_UC4_RECEIVER Queue -->
+	<depends>jboss.esb.quickstart.destination:service=Queue,name=INT910.RMS.ART_UC4_RECEIVER</depends>
+	<!-- ESB Application is going to listen in the INT910.RMS.ART_ESB -->	
+	<depends>jboss.esb.quickstart.destination:service=Queue,name=INT910.RMS.ART_ESB</depends>
+	<!-- After completing the whole process, application is sending the status back to UC4_READ_JOB_STATUS Queue -->	
+	<depends>gem.messaging.destination:service=Queue,name=UC4_READ_JOB_STATUS</depends>
+</jbossesb-deployment>
